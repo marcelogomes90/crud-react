@@ -11,10 +11,10 @@ const Button = styled.button`
     font-weight: bold;
     font-size: 16px;
     cursor: pointer;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
 
     &:hover{
-        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
         transform: translateY(-2px);
     }
 `

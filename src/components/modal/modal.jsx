@@ -19,11 +19,11 @@ function Modal(props) {
             </Close>
             <Form>
                 <Label>Nome:</Label>
-                <Input type="text" required></Input>
+                <Input type="text" maxLength="50" required></Input>
                 <Label>E-mail:</Label>
-                <Input type="email" required></Input>
+                <Input type="email" maxLength="50" required></Input>
                 <Label>Profissão:</Label>
-                <Input type="text" required></Input>
+                <Input type="text" maxLength="50" required></Input>
                 <Label>Idade:</Label>
                 <Input type="number" min="1" max="150" required></Input>
                 <Button type="submit">Criar</Button>
