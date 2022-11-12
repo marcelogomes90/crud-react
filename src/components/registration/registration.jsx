@@ -18,7 +18,7 @@ function Registration() {
                 <Title>Clientes</Title>
                 <Button onClick={openModal}>Cadastrar</Button>
             </Container>
-            { modalOpen ? <Modal /> : null }
+            { modalOpen ? <Modal setModalOpen={setModalOpen}/> : null }
         </>
     )
 }
