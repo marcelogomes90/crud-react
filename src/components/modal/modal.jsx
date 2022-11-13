@@ -43,14 +43,13 @@ function Modal(props) {
 
     const creatClient = () => {
         setNewEntrie({...newEntrie, nome: nome, email: email, profissao: profissao, idade: idade});
-        api.post("/clients", newEntrie)
+        api.post("/clients", newEntrie) 
         .then(function (response) {
             console.log(response);
         })
         .catch(function (error) {
             console.log(error);
         });
-        console.log(newEntrie)
     }
 
     return (

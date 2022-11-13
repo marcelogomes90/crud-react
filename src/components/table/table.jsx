@@ -26,7 +26,7 @@ function Table() {
                         <TableTd>marcelo.sobrinho@outlook.com</TableTd>
                         <TableTd>Desenvolvedor</TableTd>
                         <TableTd>32</TableTd>
-                        <TableTd><RiFileEditLine size={26} color="green" style={{cursor: "pointer", marginRight: "10px"}}/><RiDeleteBin6Line size={26} color="red" style={{cursor: "pointer"}}/></TableTd>
+                        <TableTd><RiFileEditLine size={24} color="green" style={{cursor: "pointer", marginRight: "10px"}}/><RiDeleteBin6Line size={24} color="red" style={{cursor: "pointer"}}/></TableTd>
                     </TableTr>
                 </TableBody>
             </Tabela>
