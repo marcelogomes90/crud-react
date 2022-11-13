@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Modal from "../modal/modal";
 import Button from "./button";
 import Container from "./container";
@@ -20,7 +20,7 @@ function Registration() {
                 <Button onClick={openModal}>Cadastrar</Button>
             </Container>
             { modalOpen ? <Modal setModalOpen={setModalOpen}/> : null }
-            <Table />
+            <Table modalOpen={modalOpen}/>
         </>
     )
 }

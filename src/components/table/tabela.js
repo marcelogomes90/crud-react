@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Tabela = styled.table`
     width: 100%;
     text-align: left;
-    border-spacing: 0 20px;
+    border-spacing: 0 8px;
 `
 
 export const TableHead = styled.thead`

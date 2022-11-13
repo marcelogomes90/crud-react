@@ -35,14 +35,10 @@ function Modal(props) {
         props.setModalOpen(false);
     }
 
-    const createClient = async () => {
-        await api.post("/clients", { nome: nome, email: email, profissao: profissao, idade:idade }) 
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    const createClient = async (event) => {
+        event.preventDefault();
+        await api.post("/clients", { nome: nome, email: email, profissao: profissao, idade:idade });
+        props.setModalOpen(false);
     }
 
     return (
@@ -50,7 +46,7 @@ function Modal(props) {
             <Close  onClick={cancelCreation}>
                 <AiOutlineClose size={28}/>
             </Close>
-            <Form>
+            <Form onSubmit={(event) => createClient(event)}>
                 <Label>Nome:</Label>
                 <Input type="text" maxLength="50" required  onChange={(event) => handleNomeChange(event)}></Input>
                 <Label>E-mail:</Label>
@@ -59,7 +55,7 @@ function Modal(props) {
                 <Input type="text" maxLength="50" required onChange={(event) => handleProfissaoChange(event)}></Input>
                 <Label>Idade:</Label>
                 <Input type="number" min="1" max="150" required onChange={(event) => handleIdadeChange(event)}></Input>
-                <Button type="submit" onSubmit={createClient}>Criar</Button>
+                <Button type="submit">Criar</Button>
             </Form>
         </Container>
     )

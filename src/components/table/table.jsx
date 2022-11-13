@@ -3,8 +3,10 @@ import { Tabela, TableBody, TableHead, TableTd, TableTh, TableTr } from "./tabel
 import { RiFileEditLine, RiDeleteBin6Line } from "react-icons/ri";
 import api from "../../services/api";
 import Container from "./container";
+import Avatar from "../../assets/avatar.png"
+import AvatarImg from "./avatar";
 
-function Table() {
+function Table(props) {
 
     const [arrayClient, setArrayClient] = useState();
 
@@ -12,7 +14,7 @@ function Table() {
         api.get("/clients").then(({data}) => {
             setArrayClient(data);
         })
-    }, [] )
+    }, [props.modalOpen == false] )
 
     return(
         <Container>
@@ -32,7 +34,7 @@ function Table() {
                         {arrayClient?.map((entrada) => ( 
                         <TableTr key={`${entrada.id}`}>
                             <TableTd>{`${entrada.id}`}</TableTd>
-                            <TableTd></TableTd>
+                            <TableTd><AvatarImg src={Avatar}></AvatarImg></TableTd>
                             <TableTd>{`${entrada.nome}`}</TableTd>
                             <TableTd>{`${entrada.email}`}</TableTd>
                             <TableTd>{`${entrada.profissao}`}</TableTd>
