@@ -14,12 +14,6 @@ function Modal(props) {
     const [email, setEmail] = useState();
     const [profissao, setProfissao] = useState();
     const [idade, setIdade] = useState();
-    const [newEntrie, setNewEntrie] = useState({
-        nome: "",
-        email: "",
-        profissao: "",
-        idade: "",
-    });
 
     const handleNomeChange = (event) => {
         setNome(event.target.value)
@@ -41,9 +35,8 @@ function Modal(props) {
         props.setModalOpen(false);
     }
 
-    const creatClient = () => {
-        setNewEntrie({...newEntrie, nome: nome, email: email, profissao: profissao, idade: idade});
-        api.post("/clients", newEntrie) 
+    const createClient = async () => {
+        await api.post("/clients", { nome: nome, email: email, profissao: profissao, idade:idade }) 
         .then(function (response) {
             console.log(response);
         })
@@ -66,7 +59,7 @@ function Modal(props) {
                 <Input type="text" maxLength="50" required onChange={(event) => handleProfissaoChange(event)}></Input>
                 <Label>Idade:</Label>
                 <Input type="number" min="1" max="150" required onChange={(event) => handleIdadeChange(event)}></Input>
-                <Button type="button" onClick={creatClient}>Criar</Button>
+                <Button type="submit" onSubmit={createClient}>Criar</Button>
             </Form>
         </Container>
     )
