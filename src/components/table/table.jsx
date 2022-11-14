@@ -59,7 +59,6 @@ function Table(props) {
             <Tabela>
                 <TableHead>
                     <TableTr>
-                        <TableTh>#</TableTh>
                         <TableTh>Avatar</TableTh>
                         <TableTh>Nome</TableTh>
                         <TableTh>E-mail</TableTh>
@@ -71,7 +70,6 @@ function Table(props) {
                 <TableBody>
                         {arrayClient?.map((entrada) => ( 
                         <TableTr key={`${entrada.id}`}>
-                            <TableTd>{`${entrada.id}`}</TableTd>
                             <TableTd><AvatarImg src={Avatar}></AvatarImg></TableTd>
                             <TableTd>{`${entrada.nome}`}</TableTd>
                             <TableTd>{`${entrada.email}`}</TableTd>
