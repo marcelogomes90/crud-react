@@ -10,7 +10,6 @@ import ModalEdit from "../modalEdit/modalEdit";
 function Table(props) {
 
     const [arrayClient, setArrayClient] = useState();
-    const [idDelete, setIdDelete] = useState();
     const [idEdit, setIdEdit] = useState();
     const [editNome, setEditNome] = useState();
     const [editMail, setEditMail] = useState();
@@ -18,28 +17,27 @@ function Table(props) {
     const [editIdade, setEditIdade] = useState();
     const [modalEditOpen, setModaEditlOpen] = useState(false);
 
-    const deleteClient = (event) => {
-        setIdDelete(event.currentTarget.id);
-        api.delete(`/clients/${idDelete}`);
+    const deleteClient = (e) => {
+        api.delete(`/clients/${e.currentTarget.id}`);
     }
 
-    const editClient = (event) => {
-        setIdEdit(event.currentTarget.id);
-        var arrayFiltrado = arrayClient.filter(function(obj) { return obj.id == idEdit })
+    const editClient = (e) => {
+        let arrayFiltrado = arrayClient.filter(function(obj) { return obj.id == e.currentTarget.id })
         arrayFiltrado.map((item) => (
             setEditNome(item.nome),
             setEditMail(item.email),
             setEditProf(item.profissao),
             setEditIdade(item.idade)
         ))
-        setModaEditlOpen(true);
+        setIdEdit(e.currentTarget.id)
+        setModaEditlOpen(true)
     }
     
     useEffect(() => {
         api.get("/clients").then(({data}) => {
             setArrayClient(data);
         })
-    }, [props.modalOpen || modalEditOpen] )
+    }, [props.modalOpen, modalEditOpen] )
 
     return(
         <Container>
@@ -67,7 +65,7 @@ function Table(props) {
                 </TableHead>
                 <TableBody>
                         {arrayClient?.map((entrada) => ( 
-                        <TableTr key={`${entrada.nome}`}>
+                        <TableTr key={`${entrada.id}`}>
                             <TableTd>{`${entrada.id}`}</TableTd>
                             <TableTd><AvatarImg src={Avatar}></AvatarImg></TableTd>
                             <TableTd>{`${entrada.nome}`}</TableTd>
@@ -80,14 +78,14 @@ function Table(props) {
                                     title="Editar"
                                     size={24} color="green" 
                                     style={{cursor: "pointer", marginRight: "10px"}}
-                                    onClick={(event) => editClient(event)}
+                                    onClick={(e) => editClient(e)}
                                 />
                                 <RiDeleteBin6Line
                                     id={`${entrada.id}`}
                                     title="Deletar"
                                     size={24} color="red" 
                                     style={{cursor: "pointer"}}
-                                    onClick={(event) => deleteClient(event)}
+                                    onClick={(e) => deleteClient(e)}
                                 />
                             </TableTd>   
                         </TableTr>
