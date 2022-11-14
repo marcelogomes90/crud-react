@@ -6,19 +6,23 @@ import Container from "./container";
 import Avatar from "../../assets/avatar.png";
 import AvatarImg from "./avatar";
 import ModalEdit from "../modalEdit/modalEdit";
+import ModalConfirm from "../modalConfirm/modalConfirm";
 
 function Table(props) {
 
     const [arrayClient, setArrayClient] = useState();
     const [idEdit, setIdEdit] = useState();
+    const [idDelete, setIdDelete] = useState();
     const [editNome, setEditNome] = useState();
     const [editMail, setEditMail] = useState();
     const [editProf, setEditProf] = useState();
     const [editIdade, setEditIdade] = useState();
     const [modalEditOpen, setModaEditlOpen] = useState(false);
+    const [modalDeletetOpen, setModalDeletelOpen] = useState(false);
 
     const deleteClient = (e) => {
-        api.delete(`/clients/${e.currentTarget.id}`);
+        setIdDelete(`/clients/${e.currentTarget.id}`)
+        setModalDeletelOpen(true)
     }
 
     const editClient = (e) => {
@@ -37,10 +41,11 @@ function Table(props) {
         api.get("/clients").then(({data}) => {
             setArrayClient(data);
         })
-    }, [props.modalOpen, modalEditOpen] )
+    }, [props.modalOpen, modalEditOpen, modalDeletetOpen] )
 
     return(
         <Container>
+            { modalDeletetOpen ? <ModalConfirm setModalDeletelOpen={setModalDeletelOpen} idDelete={idDelete}/> : null }
             { modalEditOpen ? 
             <ModalEdit 
                 setModalEditOpen={setModaEditlOpen} 
