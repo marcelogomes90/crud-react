@@ -3,21 +3,56 @@ import { Tabela, TableBody, TableHead, TableTd, TableTh, TableTr } from "./tabel
 import { RiFileEditLine, RiDeleteBin6Line } from "react-icons/ri";
 import api from "../../services/api";
 import Container from "./container";
-import Avatar from "../../assets/avatar.png"
+import Avatar from "../../assets/avatar.png";
 import AvatarImg from "./avatar";
+import ModalEdit from "../modalEdit/modalEdit";
 
 function Table(props) {
 
     const [arrayClient, setArrayClient] = useState();
+    const [idDelete, setIdDelete] = useState();
+    const [idEdit, setIdEdit] = useState();
+    const [editNome, setEditNome] = useState();
+    const [editMail, setEditMail] = useState();
+    const [editProf, setEditProf] = useState();
+    const [editIdade, setEditIdade] = useState();
+    const [modalEditOpen, setModaEditlOpen] = useState(false);
 
+    const deleteClient = (event) => {
+        setIdDelete(event.currentTarget.id);
+        api.delete(`/clients/${idDelete}`);
+    }
+
+    const editClient = (event) => {
+        setIdEdit(event.currentTarget.id);
+        var arrayFiltrado = arrayClient.filter(function(obj) { return obj.id == idEdit })
+        arrayFiltrado.map((item) => (
+            setEditNome(item.nome),
+            setEditMail(item.email),
+            setEditProf(item.profissao),
+            setEditIdade(item.idade)
+        ))
+        setModaEditlOpen(true);
+    }
+    
     useEffect(() => {
         api.get("/clients").then(({data}) => {
             setArrayClient(data);
         })
-    }, [props.modalOpen == false] )
+    }, [props.modalOpen || modalEditOpen] )
 
     return(
         <Container>
+            { modalEditOpen ? 
+            <ModalEdit 
+                setModalEditOpen={setModaEditlOpen} 
+                idEdit={idEdit} 
+                editNome={editNome} 
+                editMail={editMail} 
+                editProf={editProf} 
+                editIdade={editIdade}
+            /> : 
+            null }
             <Tabela>
                 <TableHead>
                     <TableTr>
@@ -32,14 +67,29 @@ function Table(props) {
                 </TableHead>
                 <TableBody>
                         {arrayClient?.map((entrada) => ( 
-                        <TableTr key={`${entrada.id}`}>
+                        <TableTr key={`${entrada.nome}`}>
                             <TableTd>{`${entrada.id}`}</TableTd>
                             <TableTd><AvatarImg src={Avatar}></AvatarImg></TableTd>
                             <TableTd>{`${entrada.nome}`}</TableTd>
                             <TableTd>{`${entrada.email}`}</TableTd>
                             <TableTd>{`${entrada.profissao}`}</TableTd>
                             <TableTd>{`${entrada.idade}`}</TableTd>
-                            <TableTd><RiFileEditLine size={24} color="green" style={{cursor: "pointer", marginRight: "10px"}}/><RiDeleteBin6Line size={24} color="red" style={{cursor: "pointer"}}/></TableTd>   
+                            <TableTd>
+                                <RiFileEditLine
+                                    id={`${entrada.id}`}
+                                    title="Editar"
+                                    size={24} color="green" 
+                                    style={{cursor: "pointer", marginRight: "10px"}}
+                                    onClick={(event) => editClient(event)}
+                                />
+                                <RiDeleteBin6Line
+                                    id={`${entrada.id}`}
+                                    title="Deletar"
+                                    size={24} color="red" 
+                                    style={{cursor: "pointer"}}
+                                    onClick={(event) => deleteClient(event)}
+                                />
+                            </TableTd>   
                         </TableTr>
                         ))}
                 </TableBody>
