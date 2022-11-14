@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Tabela, TableBody, TableHead, TableTd, TableTh, TableTr } from "./tabela";
 import { RiFileEditLine, RiDeleteBin6Line } from "react-icons/ri";
+import { RotatingLines } from "react-loader-spinner";
 import api from "../../services/api";
 import Container from "./container";
 import Avatar from "../../assets/avatar.png";
 import AvatarImg from "./avatar";
 import ModalEdit from "../modalEdit/modalEdit";
 import ModalConfirm from "../modalConfirm/modalConfirm";
+import LoadingDiv from "./loadDiv";
 
 function Table(props) {
 
@@ -19,6 +21,7 @@ function Table(props) {
     const [editIdade, setEditIdade] = useState();
     const [modalEditOpen, setModaEditlOpen] = useState(false);
     const [modalDeletetOpen, setModalDeletelOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const deleteClient = (e) => {
         setIdDelete(`/clients/${e.currentTarget.id}`)
@@ -41,6 +44,7 @@ function Table(props) {
         api.get("/clients").then(({data}) => {
             setArrayClient(data);
         })
+        setLoading(false);
     }, [props.modalOpen, modalEditOpen, modalDeletetOpen] )
 
     return(
@@ -56,48 +60,59 @@ function Table(props) {
                 editIdade={editIdade}
             /> : 
             null }
-            <Tabela>
-                <TableHead>
-                    <TableTr>
-                        <TableTh>Avatar</TableTh>
-                        <TableTh>Nome</TableTh>
-                        <TableTh>E-mail</TableTh>
-                        <TableTh>Profissão</TableTh>
-                        <TableTh>Idade</TableTh>
-                        <TableTh>Ações</TableTh>
-                    </TableTr>
-                </TableHead>
-                <TableBody>
-                        {arrayClient?.map((entrada) => ( 
-                        <TableTr key={`${entrada.id}`}>
-                            <TableTd><AvatarImg src={Avatar}></AvatarImg></TableTd>
-                            <TableTd>{`${entrada.nome}`}</TableTd>
-                            <TableTd>{`${entrada.email}`}</TableTd>
-                            <TableTd>{`${entrada.profissao}`}</TableTd>
-                            <TableTd>{`${entrada.idade}`}</TableTd>
-                            <TableTd>
-                                <RiFileEditLine
-                                    id={`${entrada.id}`}
-                                    title="Editar"
-                                    size={24} color="green" 
-                                    style={{cursor: "pointer", marginRight: "10px"}}
-                                    onClick={(e) => editClient(e)}
-                                />
-                                <RiDeleteBin6Line
-                                    id={`${entrada.id}`}
-                                    title="Deletar"
-                                    size={24} color="red" 
-                                    style={{cursor: "pointer"}}
-                                    onClick={(e) => deleteClient(e)}
-                                />
-                            </TableTd>   
+            { loading ?
+                <LoadingDiv>
+                    <RotatingLines
+                    strokeColor="#5b5dbd"
+                    strokeWidth="3"
+                    animationDuration="0.95"
+                    width="60"
+                    visible={true}
+                    />
+                </LoadingDiv> 
+            :
+                <Tabela>
+                    <TableHead>
+                        <TableTr>
+                            <TableTh>Avatar</TableTh>
+                            <TableTh>Nome</TableTh>
+                            <TableTh>E-mail</TableTh>
+                            <TableTh>Profissão</TableTh>
+                            <TableTh>Idade</TableTh>
+                            <TableTh>Ações</TableTh>
                         </TableTr>
+                    </TableHead>
+                    <TableBody>
+                        {arrayClient?.map((entrada) => ( 
+                            <TableTr key={`${entrada.id}`}>
+                                <TableTd><AvatarImg src={Avatar}></AvatarImg></TableTd>
+                                <TableTd>{`${entrada.nome}`}</TableTd>
+                                <TableTd>{`${entrada.email}`}</TableTd>
+                                <TableTd>{`${entrada.profissao}`}</TableTd>
+                                <TableTd>{`${entrada.idade}`}</TableTd>
+                                <TableTd>
+                                    <RiFileEditLine
+                                        id={`${entrada.id}`}
+                                        title="Editar"
+                                        size={24} color="green" 
+                                        style={{cursor: "pointer", marginRight: "10px"}}
+                                        onClick={(e) => editClient(e)}
+                                    />
+                                    <RiDeleteBin6Line
+                                        id={`${entrada.id}`}
+                                        title="Deletar"
+                                        size={24} color="red" 
+                                        style={{cursor: "pointer"}}
+                                        onClick={(e) => deleteClient(e)}
+                                    />
+                                </TableTd>   
+                            </TableTr>
                         ))}
-                </TableBody>
-            </Tabela>
+                    </TableBody>
+                </Tabela>
+            }
         </Container>
     )
-
 }
 
 export default Table;
