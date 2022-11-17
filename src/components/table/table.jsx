@@ -39,17 +39,24 @@ function Table(props) {
         setIdEdit(e.currentTarget.id)
         setModaEditlOpen(true)
     }
-    
-    useEffect(() => {
-        api.get("/clients").then(({data}) => {
+
+    const getClients = async ()  => {
+        if (props.modalOpen == false & modalEditOpen == false & modalDeletetOpen == false) {
+            setLoading(true);
+        }
+        await api.get("/clients").then(({data}) => {
             setArrayClient(data);
         })
         setLoading(false);
+    }
+    
+    useEffect(  () => {
+        getClients();
     }, [props.modalOpen, modalEditOpen, modalDeletetOpen] )
 
     return(
         <Container>
-            { modalDeletetOpen ? <ModalConfirm setModalDeletelOpen={setModalDeletelOpen} idDelete={idDelete}/> : null }
+            { modalDeletetOpen ? <ModalConfirm setModalDeletelOpen={setModalDeletelOpen} idDelete={idDelete} setLoading={setLoading}/> : null }
             { modalEditOpen ? 
             <ModalEdit 
                 setModalEditOpen={setModaEditlOpen} 
@@ -58,6 +65,7 @@ function Table(props) {
                 editMail={editMail} 
                 editProf={editProf} 
                 editIdade={editIdade}
+                setLoading={setLoading}
             /> : 
             null }
             { loading ?

@@ -14,6 +14,7 @@ function ModalConfirm(props) {
     const confirm = async () => {
         await api.delete(props.idDelete);
         props.setModalDeletelOpen(false);
+        props.setLoading(true);
     }
 
     return (

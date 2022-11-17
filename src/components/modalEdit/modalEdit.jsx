@@ -39,6 +39,7 @@ function ModalEdit(props) {
         event.preventDefault();
         await api.put(`/clients/${props.idEdit}`, { nome: nome, email: email, profissao: profissao, idade:idade });
         props.setModalEditOpen(false);
+        props.setLoading(true);
     }
 
     return (
